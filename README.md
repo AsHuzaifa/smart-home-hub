@@ -1,7 +1,7 @@
 # Smart Home Hub
 
 A client-side simulation of a smart home automation system: a drag-and-drop
-rules engine (a la Node-RED) wired to a live 3D floorplan where simulated
+rules engine wired to a live 3D floorplan where simulated
 devices - lights, fans, an AC unit, doors, a thermostat, temperature and
 motion sensors - visibly react in real time as rules fire. It also models two
 things a plain home-automation demo usually skips: device connectivity
