@@ -22,19 +22,34 @@ export function Fan({ id, position, onSelect }: Props) {
   });
 
   if (!state) return null;
+  const bladeColor = state.on ? '#e6e2ce' : '#8a8567';
 
   return (
     <group position={position} onClick={(e) => (e.stopPropagation(), onSelect(id))}>
-      <mesh>
-        <cylinderGeometry args={[0.05, 0.05, 0.3, 8]} />
-        <meshStandardMaterial color="#7d8998" />
+      {/* Downrod from ceiling */}
+      <mesh position={[0, 0.18, 0]}>
+        <cylinderGeometry args={[0.015, 0.015, 0.35, 6]} />
+        <meshStandardMaterial color="#2e2a20" metalness={0.4} roughness={0.5} />
       </mesh>
-      <group ref={bladesRef} position={[0, 0.15, 0]}>
-        {[0, 1, 2].map((i) => (
-          <mesh key={i} rotation={[0, (i * Math.PI * 2) / 3, 0]} position={[0.2, 0, 0]}>
-            <boxGeometry args={[0.4, 0.02, 0.08]} />
-            <meshStandardMaterial color={state.on ? '#58a6ff' : '#4a4a4a'} />
-          </mesh>
+
+      {/* Motor housing */}
+      <mesh castShadow>
+        <cylinderGeometry args={[0.08, 0.08, 0.08, 12]} />
+        <meshStandardMaterial color="#3a3626" metalness={0.3} roughness={0.5} />
+      </mesh>
+
+      {/* Each blade is nested in its own rotated group so the 0.32 offset is carried
+          along that group's rotated axis - putting position + rotation on the same
+          mesh instead left every blade translated along the same (unrotated) axis,
+          bunching all four blades to one side instead of spreading them symmetrically. */}
+      <group ref={bladesRef} position={[0, 0, 0]}>
+        {[0, 1, 2, 3].map((i) => (
+          <group key={i} rotation={[0, (i * Math.PI) / 2, 0]}>
+            <mesh position={[0.32, 0, 0]} castShadow>
+              <boxGeometry args={[0.55, 0.015, 0.12]} />
+              <meshStandardMaterial color={bladeColor} roughness={0.7} />
+            </mesh>
+          </group>
         ))}
       </group>
     </group>

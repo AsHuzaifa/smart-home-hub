@@ -13,7 +13,7 @@ export interface ValidationResult {
   reason: string;
 }
 
-// Structural check only — confirms patch keys/types match the device's expected
+// Structural check only - confirms patch keys/types match the device's expected
 // shape. Not a substitute for real input validation against an external API.
 export function validatePatch(
   deviceType: DeviceType,
@@ -39,7 +39,7 @@ export const MAX_COMMAND_AGE_MS = 10_000;
 export function checkFreshness(timestamp: number): ValidationResult {
   const age = Date.now() - timestamp;
   if (age > MAX_COMMAND_AGE_MS) {
-    return { valid: false, reason: `Command is ${Math.round(age / 1000)}s old — exceeds freshness window` };
+    return { valid: false, reason: `Command is ${Math.round(age / 1000)}s old - exceeds freshness window` };
   }
   return { valid: true, reason: 'Fresh' };
 }

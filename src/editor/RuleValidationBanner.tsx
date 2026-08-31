@@ -24,13 +24,13 @@ export function RuleValidationBanner() {
 
   const hasAction = nodes.some((n) => n.data.kind === 'action');
   if (nodes.length > 0 && !hasAction) {
-    warnings.push('No action node yet — a rule needs at least one action to do anything.');
+    warnings.push('No action node yet - a rule needs at least one action to do anything.');
   }
 
   if (warnings.length === 0) return null;
 
   return (
-    <div className="border-b border-accent-warn/30 bg-accent-warn/10 px-4 py-2 text-xs text-accent-warn">
+    <div className="m-2 rounded-xl border border-accent-warn/30 bg-accent-warn/10 px-4 py-2 text-xs text-accent-warn backdrop-blur-md">
       {warnings.join(' ')}
     </div>
   );

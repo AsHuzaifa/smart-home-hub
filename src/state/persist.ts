@@ -11,7 +11,7 @@ export function hydrateRules() {
       useRuleStore.setState({ nodes, edges });
     }
   } catch {
-    // Corrupt or missing localStorage data — start from an empty rule graph.
+    // Corrupt or missing localStorage data - start from an empty rule graph.
   }
 }
 

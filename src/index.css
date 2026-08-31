@@ -1,16 +1,29 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #0d1117;
-  --color-surface: #151b23;
-  --color-panel: #1c2530;
-  --color-border: #2a3542;
-  --color-text: #e6edf3;
-  --color-muted: #7d8998;
-  --color-accent: #3fb950;
-  --color-accent-warn: #d29922;
-  --color-accent-danger: #f85149;
-  --color-accent-info: #58a6ff;
+  /* Deep neutral backdrop - glass panels float above this, colored blobs live behind it */
+  --color-bg: #16171b;
+  --color-bg-deep: rgba(0, 0, 0, 0.28);
+
+  /* Glass fill - translucent, brightened by backdrop-blur on the elements that use it */
+  --color-panel: rgba(255, 255, 255, 0.07);
+  --color-panel-deep: rgba(255, 255, 255, 0.03);
+
+  --color-border: rgba(255, 255, 255, 0.14);
+
+  /* Text is light throughout - glass panels sit over a dark backdrop, so there is no
+     separate "light panel" context anymore like the old solid-terracotta theme had. */
+  --color-text: #f3f1ec;
+  --color-muted: #a3a5ad;
+
+  --color-ink: #f3f1ec;
+  --color-ink-muted: #a3a5ad;
+  --color-paper: #f3f1ec;
+
+  --color-accent: #8fae5d;
+  --color-accent-warn: #e0b94a;
+  --color-accent-danger: #e5654a;
+  --color-accent-info: #5fb8c9;
 
   --font-display: 'Inter', system-ui, sans-serif;
   --font-mono: ui-monospace, 'JetBrains Mono', Consolas, monospace;
@@ -27,4 +40,81 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-display);
+  position: relative;
+}
+
+/* Soft colored blobs behind the glass UI - this is what the blur actually picks up */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(95, 184, 201, 0.32), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(224, 148, 74, 0.28), transparent 40%),
+    radial-gradient(circle at 30% 92%, rgba(143, 174, 93, 0.24), transparent 45%),
+    radial-gradient(circle at 92% 85%, rgba(229, 101, 74, 0.18), transparent 42%),
+    var(--color-bg);
+}
+
+.glass-panel {
+  /* Soft top sheen over the translucent fill - the bit of "liquid" catching light */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 35%, rgba(255, 255, 255, 0) 65%),
+    var(--color-panel);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.glass-frame {
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+}
+
+/* Custom slider - fill/track color is set per-instance via inline style (background),
+   this rule only shapes the track shell and the glass thumb. */
+input[type='range'].glass-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 9px;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+input[type='range'].glass-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  margin-top: -4px;
+  border-radius: 9999px;
+  background: linear-gradient(160deg, #ffffff, #d7dee0);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 0 0 4px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+input[type='range'].glass-slider::-moz-range-thumb {
+  width: 17px;
+  height: 17px;
+  border-radius: 9999px;
+  background: linear-gradient(160deg, #ffffff, #d7dee0);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    0 0 0 4px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+input[type='range'].glass-slider::-moz-range-track {
+  height: 9px;
+  border-radius: 9999px;
+  background: transparent;
 }

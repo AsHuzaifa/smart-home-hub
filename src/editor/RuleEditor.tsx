@@ -55,7 +55,7 @@ function Canvas() {
         fitView
         proOptions={{ hideAttribution: true }}
       >
-        <Background color="#2a3542" gap={16} />
+        <Background color="rgba(255,255,255,0.16)" gap={16} />
         <Controls />
       </ReactFlow>
     </div>
@@ -70,7 +70,7 @@ export function RuleEditor() {
     <div className="flex h-full flex-col">
       <RuleValidationBanner />
       <div className="flex flex-1 overflow-hidden">
-        <aside className="w-48 shrink-0 border-r border-border">
+        <aside className="w-48 shrink-0 border-r border-border/60">
           <NodePalette />
         </aside>
         <div className="relative flex-1">

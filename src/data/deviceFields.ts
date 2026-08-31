@@ -12,4 +12,5 @@ export const FIELDS_BY_TYPE: Record<DeviceType, FieldDef[]> = {
   thermostat: [{ key: 'targetTemp', type: 'number' }, { key: 'currentTemp', type: 'number' }],
   motionSensor: [{ key: 'motion', type: 'boolean' }, { key: 'lastTriggeredAt', type: 'number' }],
   tempSensor: [{ key: 'temp', type: 'number' }],
+  ac: [{ key: 'on', type: 'boolean' }],
 };

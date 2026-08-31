@@ -1,36 +1,40 @@
+import { useMemo } from 'react';
+import { RoomFurniture } from './Furniture';
+import { getKitchenFloorTexture, getTileFloorTexture, getWoodFloorTexture } from './textures';
 import type { RoomDef } from '../types/device';
 
-const WALL_HEIGHT = 2.6;
-const WALL_THICKNESS = 0.1;
+function getFloorTextureFor(roomId: RoomDef['id']) {
+  switch (roomId) {
+    case 'kitchen':
+      return { base: getKitchenFloorTexture(), tiles: true };
+    case 'bathroom':
+      return { base: getTileFloorTexture(), tiles: true };
+    default:
+      return { base: getWoodFloorTexture(), tiles: false };
+  }
+}
 
 export function Room({ room }: { room: RoomDef }) {
   const { x, z, width, depth } = room.bounds;
   const centerX = x + width / 2;
   const centerZ = z + depth / 2;
+  const { base, tiles } = getFloorTextureFor(room.id);
+
+  const floorTexture = useMemo(() => {
+    const tex = base.clone();
+    tex.needsUpdate = true;
+    tex.repeat.set(width / (tiles ? 3 : 2), depth / (tiles ? 3 : 2));
+    return tex;
+  }, [base, width, depth, tiles]);
 
   return (
     <group position={[centerX, 0, centerZ]}>
       <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[width, depth]} />
-        <meshStandardMaterial color="#1c2530" />
+        <meshStandardMaterial map={floorTexture} roughness={tiles ? 0.4 : 0.75} />
       </mesh>
 
-      {/* Back wall */}
-      <mesh position={[0, WALL_HEIGHT / 2, -depth / 2]}>
-        <boxGeometry args={[width, WALL_HEIGHT, WALL_THICKNESS]} />
-        <meshStandardMaterial color="#2a3542" />
-      </mesh>
-
-      {/* Left wall */}
-      <mesh position={[-width / 2, WALL_HEIGHT / 2, 0]}>
-        <boxGeometry args={[WALL_THICKNESS, WALL_HEIGHT, depth]} />
-        <meshStandardMaterial color="#2a3542" />
-      </mesh>
-
-      <mesh position={[0, 0.02, depth / 2 - 0.4]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[width * 0.6, 0.02]} />
-        <meshBasicMaterial color="#3fb950" transparent opacity={0.3} />
-      </mesh>
+      <RoomFurniture roomId={room.id} />
     </group>
   );
 }

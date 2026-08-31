@@ -5,7 +5,7 @@ import { useDeviceStore } from '../state/deviceStore';
 import type { Device } from '../types/device';
 
 // Reads a device's live state from the store and exposes a ref holding
-// smoothly-damped scalar values driven each frame — shared by every device
+// smoothly-damped scalar values driven each frame - shared by every device
 // mesh component so animation easing stays consistent across the scene.
 export function useDeviceAnimation<T extends Device['state']>(deviceId: string) {
   const state = useDeviceStore((s) => s.devices[deviceId]?.state) as T | undefined;

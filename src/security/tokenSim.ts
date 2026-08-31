@@ -1,4 +1,4 @@
-// Cosmetic simulation only — NOT real cryptography. Deterministically derives a
+// Cosmetic simulation only - NOT real cryptography. Deterministically derives a
 // fake per-device "token" string so the UI has something stable to display.
 export function issueToken(deviceId: string): string {
   let hash = 0;

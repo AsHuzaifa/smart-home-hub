@@ -5,6 +5,11 @@ export function evaluateCondition(condition: ConditionNodeData, devices: Record<
   const device = devices[condition.sourceDeviceId];
   if (!device) return false;
 
+  // A rule can't trust a reading from a device it can't currently reach - an
+  // offline device's last-known state is stale, so any condition depending on
+  // it fails closed rather than silently firing on old data.
+  if (!device.connectivity.online) return false;
+
   const actual = (device.state as Record<string, unknown>)[condition.field];
   if (actual === undefined) return false;
 
