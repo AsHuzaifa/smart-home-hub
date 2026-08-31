@@ -50,13 +50,6 @@ Fully client-side - no backend, no real MQTT/WebSocket broker. Only the rule
 graph persists, to `localStorage`; devices, telemetry, and the security log
 reset on every page load.
 
-## Running locally
-
-```bash
-npm install
-npm run dev
-```
-
 ## What's intentionally out of scope
 
 This is a portfolio piece demonstrating a rules-engine + 3D-simulation
