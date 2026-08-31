@@ -8,7 +8,7 @@ things a plain home-automation demo usually skips: device connectivity
 (signal, battery, disconnects) and a simulated command-security layer, both
 wired into the real rules engine rather than just decorative.
 
-**[Live demo](#)** _(add the deployed URL here once live)_
+Live site:- smarthome-delta-ten.vercel.app
 
 ## What it does
 
